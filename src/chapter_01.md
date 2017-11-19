@@ -1,13 +1,21 @@
 # Creating a Window w/ Header Bar
 
+In this chapter, we will create a simple GTK application that features a header bar. This will
+serve as an introduction to the basics of creating an application structure to contain the
+state of your GTK UI, as well as spawning a GTK window and running your application.
+
+> Before continuing, do ensure that you have added the **gtk** crate to your **Cargo.toml** file,
+> and additionally have specified at least `v3_14` as a feature to enable with the **gtk** crate.
+
 ## Creating the GTK Application Structures
+
+The following diagram lays out how we will construct our GTK application data structure. One does
+not have to follow this diagram to achieve the same result, but structuring your UI struct into a
+hierarchy of partitions can be helpful to the mind.
 
 <img src="images/ch1_diagram.png" />
 
-After you've planned out what your application will look like, you will start by constructing the
-interface of your application, beginning with the window and an optional header bar. First
-construct a structure that will hold the state of every widget in your interface that you will
-later program.
+As we can see, we will need to create a structure that has a `GtkWindow` and a `Header`.
 
 ```rust
 extern crate gtk;
@@ -18,7 +26,12 @@ pub struct App {
     pub window: Window,
     pub header: Header,
 }
+```
 
+The `Header` is another structure that we will create, which will contain the `GtkHeaderbar` and
+all of the widgets within that header bar.
+
+```rust
 pub struct Header {
     pub container: HeaderBar
 }

@@ -69,12 +69,19 @@
 
                 <div id="content" class="content">
                     <a class="header" href="./chapter_01.html#creating-a-window-w-header-bar" id="creating-a-window-w-header-bar"><h1>Creating a Window w/ Header Bar</h1></a>
+<p>In this chapter, we will create a simple GTK application that features a header bar. This will
+serve as an introduction to the basics of creating an application structure to contain the
+state of your GTK UI, as well as spawning a GTK window and running your application.</p>
+<blockquote>
+<p>Before continuing, do ensure that you have added the <strong>gtk</strong> crate to your <strong>Cargo.toml</strong> file,
+and additionally have specified at least <code>v3_14</code> as a feature to enable with the <strong>gtk</strong> crate.</p>
+</blockquote>
 <a class="header" href="./chapter_01.html#creating-the-gtk-application-structures" id="creating-the-gtk-application-structures"><h2>Creating the GTK Application Structures</h2></a>
+<p>The following diagram lays out how we will construct our GTK application data structure. One does
+not have to follow this diagram to achieve the same result, but structuring your UI struct into a
+hierarchy of partitions can be helpful to the mind.</p>
 <p><img src="images/ch1_diagram.png" /></p>
-<p>After you've planned out what your application will look like, you will start by constructing the
-interface of your application, beginning with the window and an optional header bar. First
-construct a structure that will hold the state of every widget in your interface that you will
-later program.</p>
+<p>As we can see, we will need to create a structure that has a <code>GtkWindow</code> and a <code>Header</code>.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 extern crate gtk;
@@ -86,6 +93,11 @@ pub struct App {
     pub header: Header,
 }
 
+#}</code></pre></pre>
+<p>The <code>Header</code> is another structure that we will create, which will contain the <code>GtkHeaderbar</code> and
+all of the widgets within that header bar.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
 pub struct Header {
     pub container: HeaderBar
 }
