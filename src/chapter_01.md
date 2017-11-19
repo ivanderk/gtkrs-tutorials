@@ -15,7 +15,7 @@ hierarchy of partitions can be helpful to the mind.
 
 <img src="images/ch1_diagram.png" />
 
-As we can see, we will need to create a structure that has a `GtkWindow` and a `Header`.
+As we can see, we will need to create a structure that has a **GtkWindow** and a **Header**.
 
 ```rust
 extern crate gtk;
@@ -28,7 +28,7 @@ pub struct App {
 }
 ```
 
-The `Header` is another structure that we will create, which will contain the `GtkHeaderbar` and
+The **Header** is another structure that we will create, which will contain the **GtkHeaderbar** and
 all of the widgets within that header bar.
 
 ```rust
@@ -37,10 +37,19 @@ pub struct Header {
 }
 ```
 
-Next is to generate our UI with Rust, and store it in the newly-defined structures. First is the
-**App** structure, which will be contain the overall structure of our UI in a well-defined
-hierarchy of data structures and associated data. The following code example provides in-line
-comments to describe each of the methods that are being used to configure it.
+## Creating the UI with Rust
+
+Next is to generate our UI with Rust, and store it in the newly-defined structures.
+
+First is the **App** structure, which will be contain the overall structure of our UI in a
+well-defined hierarchy of data structures and associated data. The following code example
+provides in-line comments to describe each of the methods that are being used to configure it.
+
+We will be creating the **GtkWindow** that we will attach every UI element to, the **Header**
+structure that will contain our **GtkHeaderBar**, and programming the exit function within the
+window. It's also important that we set a title for the window, the **wmclass** which will be
+seen by window managers, and setting the icon to display within the window manager via the
+`Window::set_default_icon_name()` function.
 
 ```rust
 impl App {
@@ -69,7 +78,13 @@ impl App {
         App { window, header }
     }
 }
+```
 
+And then there is our **Header** structure, which for now, will only contain the **GtkHeaderBar**.
+It is important to set the title of this header bar, if you want a title to be displayed, and to
+also enable window controls on it, as this is disabled by default.
+
+```rust
 impl Header {
     fn new() -> Header {
         // Creates the main header bar container widget.

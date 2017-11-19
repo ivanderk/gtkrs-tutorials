@@ -81,7 +81,7 @@ and additionally have specified at least <code>v3_14</code> as a feature to enab
 not have to follow this diagram to achieve the same result, but structuring your UI struct into a
 hierarchy of partitions can be helpful to the mind.</p>
 <p><img src="images/ch1_diagram.png" /></p>
-<p>As we can see, we will need to create a structure that has a <code>GtkWindow</code> and a <code>Header</code>.</p>
+<p>As we can see, we will need to create a structure that has a <strong>GtkWindow</strong> and a <strong>Header</strong>.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 extern crate gtk;
@@ -94,7 +94,7 @@ pub struct App {
 }
 
 #}</code></pre></pre>
-<p>The <code>Header</code> is another structure that we will create, which will contain the <code>GtkHeaderbar</code> and
+<p>The <strong>Header</strong> is another structure that we will create, which will contain the <strong>GtkHeaderbar</strong> and
 all of the widgets within that header bar.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
@@ -103,10 +103,16 @@ pub struct Header {
 }
 
 #}</code></pre></pre>
-<p>Next is to generate our UI with Rust, and store it in the newly-defined structures. First is the
-<strong>App</strong> structure, which will be contain the overall structure of our UI in a well-defined
-hierarchy of data structures and associated data. The following code example provides in-line
-comments to describe each of the methods that are being used to configure it.</p>
+<a class="header" href="print.html#creating-the-ui-with-rust" id="creating-the-ui-with-rust"><h2>Creating the UI with Rust</h2></a>
+<p>Next is to generate our UI with Rust, and store it in the newly-defined structures.</p>
+<p>First is the <strong>App</strong> structure, which will be contain the overall structure of our UI in a
+well-defined hierarchy of data structures and associated data. The following code example
+provides in-line comments to describe each of the methods that are being used to configure it.</p>
+<p>We will be creating the <strong>GtkWindow</strong> that we will attach every UI element to, the <strong>Header</strong>
+structure that will contain our <strong>GtkHeaderBar</strong>, and programming the exit function within the
+window. It's also important that we set a title for the window, the <strong>wmclass</strong> which will be
+seen by window managers, and setting the icon to display within the window manager via the
+<code>Window::set_default_icon_name()</code> function.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 impl App {
@@ -136,6 +142,12 @@ impl App {
     }
 }
 
+#}</code></pre></pre>
+<p>And then there is our <strong>Header</strong> structure, which for now, will only contain the <strong>GtkHeaderBar</strong>.
+It is important to set the title of this header bar, if you want a title to be displayed, and to
+also enable window controls on it, as this is disabled by default.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
 impl Header {
     fn new() -&gt; Header {
         // Creates the main header bar container widget.
