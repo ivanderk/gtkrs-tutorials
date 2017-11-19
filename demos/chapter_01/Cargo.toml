@@ -1,0 +1,7 @@
+[package]
+authors = ["Michael Aaron Murphy <mmstickman@gmail.com>"]
+name = "chapter_01"
+version = "0.1.0"
+
+[dependencies]
+gtk = { version = "0.2.0", features = ["v3_22"] }
