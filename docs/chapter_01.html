@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Creating a Window w/ Header Bar - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./chapter_01.html" class="active"><strong>1.</strong> Creating a Window w/ Header Bar</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_01.html#creating-a-window-w-header-bar" id="creating-a-window-w-header-bar"><h1>Creating a Window w/ Header Bar</h1></a>
+<a class="header" href="./chapter_01.html#creating-the-gtk-application-structures" id="creating-the-gtk-application-structures"><h2>Creating the GTK Application Structures</h2></a>
+<p><img src="images/ch1_diagram.png" /></p>
+<p>After you've planned out what your application will look like, you will start by constructing the
+interface of your application, beginning with the window and an optional header bar. First
+construct a structure that will hold the state of every widget in your interface that you will
+later program.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+extern crate gtk;
+use gtk::*;
+use std::process;
+
+pub struct App {
+    pub window: Window,
+    pub header: Header,
+}
+
+pub struct Header {
+    pub container: HeaderBar
+}
+
+#}</code></pre></pre>
+<p>Next is to generate our UI with Rust, and store it in the newly-defined structures. First is the
+<strong>App</strong> structure, which will be contain the overall structure of our UI in a well-defined
+hierarchy of data structures and associated data. The following code example provides in-line
+comments to describe each of the methods that are being used to configure it.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl App {
+    fn new() -&gt; App {
+        // Create a new top level window.
+        let window = Window::new(WindowType::Toplevel);
+        // Create a the headerbar and it's associated content.
+        let header = Header::new();
+
+        // Set the headerbar as the title bar widget.
+        window.set_titlebar(&amp;header.container);
+        // Set the title of the window.
+        window.set_title(&quot;App Name&quot;);
+        // Set the window manager class.
+        window.set_wmclass(&quot;app-name&quot;, &quot;App name&quot;);
+        // The icon the app will display.
+        Window::set_default_icon_name(&quot;iconname&quot;);
+
+        // Programs what to do when the exit button is used.
+        window.connect_delete_event(move |_, _| {
+            main_quit();
+            Inhibit(false)
+        });
+
+        // Return our main application state
+        App { window, header }
+    }
+}
+
+impl Header {
+    fn new() -&gt; Header {
+        // Creates the main header bar container widget.
+        let container = HeaderBar::new();
+
+        // Sets the text to display in the title section of the header bar.
+        container.set_title(&quot;App Name&quot;);
+        // Enable the window controls within this headerbar.
+        container.set_show_close_button(true);
+
+        // Returns the header and all of it's state
+        Header { container }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_01.html#initializing-and-launching-the-application" id="initializing-and-launching-the-application"><h2>Initializing and Launching the Application</h2></a>
+<p>Now that we are ready, we simply need to initialize GTK, create our GTK application structure,
+show all of the widgets within that structure, and start the GTK main event loop.</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    // Initialize GTK before proceeding.
+    if gtk::init().is_err() {
+        eprintln!(&quot;failed to initialize GTK Application&quot;);
+        process::exit(1);
+    }
+
+    // Initialize the UI's initial state
+    let app = App::new();
+
+    // Make all the widgets within the UI visible.
+    app.window.show_all();
+
+    // Start the GTK main event loop
+    gtk::main();
+}
+</code></pre></pre>
+<p>Once the main thread has entered the event loop, it will poll across each of the widgets for
+actions that have been triggered, such as the <code>connect_delete_event()</code> method that we used
+above to program the exit button to exit the program.</p>
+<a class="header" href="./chapter_01.html#the-result" id="the-result"><h2>The Result</h2></a>
+<p>With all of this complete, you should now have a program up and running that looks like so.</p>
+<p><img src="images/headerbar.png" /></p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+
+                
+
+            </div>
+
+            
+
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
