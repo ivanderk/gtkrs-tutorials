@@ -1,1 +1,1 @@
-# TextViews, Text Entries, & Scrolled Windows
+# Entries, Scrolled Windows, & Text Views

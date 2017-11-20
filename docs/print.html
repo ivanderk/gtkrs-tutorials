@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./chapter_01.html"><strong>1.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>2.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>2.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>2.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>2.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>2.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>2.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>3.</strong> TextViews, Text Entries, &amp; Scrolled Windows</a></li><li><a href="./chapter_04.html"><strong>4.</strong> MenuButtons, PopoverMenus, &amp; CheckButtons</a></li><li><a href="./chapter_05.html"><strong>5.</strong> ListBoxes, </a></li></ul>
+            <ul class="chapter"><li><a href="./chapter_01.html"><strong>1.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>2.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>2.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>2.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>2.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>2.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>2.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>3.</strong> Entries, Dropdown Buttons, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_03_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04.html"><strong>4.</strong> Menu Buttons, Popover Menus, &amp; Check/Toggle Buttons</a></li><li><a href="./chapter_05.html"><strong>5.</strong> ListBoxes, </a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -211,7 +211,8 @@ reference.</p>
 <p>It is generally assumed that you have an understanding of atomics and atomic reference
 counters (<strong>Arc</strong>) before continuing with this tutorial. In order to share state across multiple
 programmable closures, or even multiple threads, it is vital to take advantage of these concepts.
-See the <strong>std::sync</strong> and <strong>std::sync::atomic</strong> modules to learn about them beforehand.</p>
+See the <strong>std::sync</strong> and <strong>std::sync::atomic</strong> modules to learn about them beforehand. You can
+also checkout <a href="https://assets.bitbashing.io/papers/lockless.pdf">this paper on lockless concurrency</a>.</p>
 <a class="header" href="print.html#gtk-objects-covered" id="gtk-objects-covered"><h1>GTK Objects Covered</h1></a>
 <p>The purpose of this section is to give an explanation of the objects that are about to used,
 before demonstrating how they are used in practice in subsequent sections.</p>
@@ -671,7 +672,15 @@ world!</p>
 <p>Do the same as the above, but also take advantage of
 <a href="https://docs.rs/gtk/0.2.0/gtk/fn.timeout_add.html">gtk::timeout_add()</a> to decrement
 and update a timer label within the UI until the timer reaches zero.</p>
-<a class="header" href="print.html#textviews-text-entries--scrolled-windows" id="textviews-text-entries--scrolled-windows"><h1>TextViews, Text Entries, &amp; Scrolled Windows</h1></a>
+<a class="header" href="print.html#entries-scrolled-windows--text-views" id="entries-scrolled-windows--text-views"><h1>Entries, Scrolled Windows, &amp; Text Views</h1></a>
+<a class="header" href="print.html#gtk-objects-covered-1" id="gtk-objects-covered-1"><h1>GTK Objects Covered</h1></a>
+<a class="header" href="print.html#gtkentry" id="gtkentry"><h2>GtkEntry</h2></a>
+<a class="header" href="print.html#gtkscrolledwindow" id="gtkscrolledwindow"><h2>GtkScrolledWindow</h2></a>
+<a class="header" href="print.html#gtktextview" id="gtktextview"><h2>GtkTextView</h2></a>
+<a class="header" href="print.html#creating-and-maintaining-state-1" id="creating-and-maintaining-state-1"><h1>Creating and Maintaining State</h1></a>
+<a class="header" href="print.html#creating-the-ui-structure-1" id="creating-the-ui-structure-1"><h1>Creating the UI Structure</h1></a>
+<a class="header" href="print.html#programming-the-ui-1" id="programming-the-ui-1"><h1>Programming the UI</h1></a>
+<a class="header" href="print.html#conclusion--review-1" id="conclusion--review-1"><h1>Conclusion &amp; Review</h1></a>
 <a class="header" href="print.html#menubuttons-popovermenus--checkbuttons" id="menubuttons-popovermenus--checkbuttons"><h1>MenuButtons, PopoverMenus, &amp; CheckButtons</h1></a>
 <a class="header" href="print.html#listboxes" id="listboxes"><h1>ListBoxes,</h1></a>
 

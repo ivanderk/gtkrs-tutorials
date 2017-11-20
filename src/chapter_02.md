@@ -15,4 +15,5 @@ via **Arc**'d atomic components, and align widgets within a container.
 It is generally assumed that you have an understanding of atomics and atomic reference
 counters (**Arc**) before continuing with this tutorial. In order to share state across multiple
 programmable closures, or even multiple threads, it is vital to take advantage of these concepts.
-See the **std::sync** and **std::sync::atomic** modules to learn about them beforehand.
+See the **std::sync** and **std::sync::atomic** modules to learn about them beforehand. You can
+also checkout [this paper on lockless concurrency](https://assets.bitbashing.io/papers/lockless.pdf).
