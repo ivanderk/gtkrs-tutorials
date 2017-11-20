@@ -170,7 +170,3 @@ fn main() {
     gtk::main();
 }
 ```
-
-After running your program, you should have a window that looks like so:
-
-<img src="images/ch02_complete.png">
