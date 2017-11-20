@@ -93,9 +93,9 @@ the root directory of your Cargo project:</p>
 <p>The API for GTK in Rust is not as you might expect from other Rusty APIs, and so it may seem
 that there is a lot of missing functionality in the generated documentaion. Each GTK object
 contains an associated <strong>ObjectExt</strong> trait, such as <strong>ButtonExt</strong>. They also gain access to
-a number of other shared traits through the <strong>IsA<T></strong> wrappers, such as <strong>IsA<Container></strong>,
-and <strong>IsA<Widget></strong>. So if you want to know all of the methods that are available for an object,
-you will need to also visit the associated traits for each of those <strong>IsA<T></strong> types that are
+a number of other shared traits through the <strong>IsA&lt;T&gt;</strong> wrappers, such as <strong>IsA&lt;Container&gt;</strong>,
+and <strong>IsA&lt;Widget&gt;</strong>. So if you want to know all of the methods that are available for an object,
+you will need to also visit the associated traits for each of those <strong>IsA&lt;T&gt;</strong> types that are
 implemented, such as <strong>WidgetExt</strong>.</p>
 <a class="header" href="print.html#gtk-objects-dont-require-mutability" id="gtk-objects-dont-require-mutability"><h2>GTK Objects Don't Require Mutability</h2></a>
 <p>GTK objects have their own mechanisms of reference counting, and are designed so that

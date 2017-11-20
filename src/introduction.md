@@ -33,9 +33,9 @@ Which will compile the documentation into **target/doc/gtk/index.html**.
 The API for GTK in Rust is not as you might expect from other Rusty APIs, and so it may seem
 that there is a lot of missing functionality in the generated documentaion. Each GTK object
 contains an associated **ObjectExt** trait, such as **ButtonExt**. They also gain access to
-a number of other shared traits through the **IsA<T>** wrappers, such as **IsA<Container>**,
-and **IsA<Widget>**. So if you want to know all of the methods that are available for an object,
-you will need to also visit the associated traits for each of those **IsA<T>** types that are
+a number of other shared traits through the **IsA\<T\>** wrappers, such as **IsA\<Container\>**,
+and **IsA\<Widget\>**. So if you want to know all of the methods that are available for an object,
+you will need to also visit the associated traits for each of those **IsA\<T\>** types that are
 implemented, such as **WidgetExt**.
 
 ## GTK Objects Don't Require Mutability
