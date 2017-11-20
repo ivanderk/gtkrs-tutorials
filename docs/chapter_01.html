@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./chapter_01.html" class="active"><strong>1.</strong> Creating a Window w/ Header Bar</a></li></ul>
+            <ul class="chapter"><li><a href="./chapter_01.html" class="active"><strong>1.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>2.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>2.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>2.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>2.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>2.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>2.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>3.</strong> TextViews, Text Entries, &amp; Scrolled Windows</a></li><li><a href="./chapter_04.html"><strong>4.</strong> MenuButtons, PopoverMenus, &amp; CheckButtons</a></li><li><a href="./chapter_05.html"><strong>5.</strong> ListBoxes, </a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -75,6 +75,12 @@ state of your GTK UI, as well as spawning a GTK window and running your applicat
 <blockquote>
 <p>Before continuing, do ensure that you have added the <strong>gtk</strong> crate to your <strong>Cargo.toml</strong> file,
 and additionally have specified at least <code>v3_14</code> as a feature to enable with the <strong>gtk</strong> crate.</p>
+</blockquote>
+<blockquote>
+<p>Also note that each GTK object that you obtain from the <strong>gtk</strong> crates are wrapped so that you
+need not worry about Rust borrowing rules. GTK objects are reference-counted, so when you need
+to share a GTK object across multiple closures, you can do so by simply cloning a new
+reference.</p>
 </blockquote>
 <a class="header" href="./chapter_01.html#creating-the-gtk-application-structures" id="creating-the-gtk-application-structures"><h2>Creating the GTK Application Structures</h2></a>
 <p>The following diagram lays out how we will construct our GTK application data structure. One does
@@ -197,11 +203,19 @@ above to program the exit button to exit the program.</p>
                 
 
                 
+                    <a href="./chapter_02.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
 
             </div>
 
             
 
+            
+                <a href="./chapter_02.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
             
 
         </div>

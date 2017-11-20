@@ -1,0 +1,281 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Creating the UI Structure - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./chapter_01.html"><strong>1.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>2.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>2.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>2.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html" class="active"><strong>2.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>2.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>2.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>3.</strong> TextViews, Text Entries, &amp; Scrolled Windows</a></li><li><a href="./chapter_04.html"><strong>4.</strong> MenuButtons, PopoverMenus, &amp; CheckButtons</a></li><li><a href="./chapter_05.html"><strong>5.</strong> ListBoxes, </a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_02_ui.html#creating-the-ui-structure" id="creating-the-ui-structure"><h1>Creating the UI Structure</h1></a>
+<p>Using the previous chapter's structure as a template, we can expand that to include the new UI
+elements that we are going to use within our program. It is important to note that you only
+need to store elements that you are going to later program after the UI is constructed.</p>
+<p>In this program, we are going to add two <strong>GtkButtons</strong> to the header bar, along with using
+a vertical and horizontal <strong>GtkBox</strong> with some labels to display information about our
+application's state. The following chart is the new diagram of our structure.</p>
+<p><img src="images/ch02_diagram.png" /></p>
+<p>Which translates to the following Rust data structures:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct App {
+    pub window:  Window,
+    pub header:  Header,
+    pub content: Content,
+}
+
+pub struct Header {
+    pub container: HeaderBar,
+    pub hit:       Button,
+    pub heal:      Button,
+}
+
+pub struct Content {
+    pub container: Box,
+    pub health:    Label,
+    pub message:   Label,
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_ui.html#creating-the-app-structure" id="creating-the-app-structure"><h2>Creating the App Structure</h2></a>
+<p>Starting with our <strong>App</strong> structure, we will do as the last tutorial, but our <strong>new()</strong> metheod
+shall take a <strong>&amp;HealthComponent</strong> as an input to set the initial value in the UI, later on
+down the road within our <strong>Content</strong> structure. One will note that we have added a new
+<strong>content</strong> variable of type <strong>Context</strong>, which takes that health reference.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl App {
+    fn new(health: &amp;HealthComponent) -&gt; App {
+        // Create a new top level window.
+        let window = Window::new(WindowType::Toplevel);
+        // Create a the headerbar and it's associated content.
+        let header = Header::new();
+        // Contains the content within the window.
+        let content = Content::new(health);
+
+        // Set the headerbar as the title bar widget.
+        window.set_titlebar(&amp;header.container);
+        // Set the title of the window.
+        window.set_title(&quot;App Name&quot;);
+        // Set the window manager class.
+        window.set_wmclass(&quot;app-name&quot;, &quot;App name&quot;);
+        // The icon the app will display.
+        Window::set_default_icon_name(&quot;iconname&quot;);
+        // Add the content box into the window.
+        window.add(&amp;content.container);
+
+        // Programs what to do when the exit button is used.
+        window.connect_delete_event(move |_, _| {
+            main_quit();
+            Inhibit(false)
+        });
+
+        // Return our main application state
+        App { window, header, content }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_ui.html#creating-the-header" id="creating-the-header"><h2>Creating the Header</h2></a>
+<p>Then we shall also implement the same method for our header, which shall now contain two
+<strong>GtkButtons</strong> -- the hit and heal buttons. Also take note that we are assigning some style
+classes to these buttons, to give them a more informative visual flair.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Header {
+    fn new() -&gt; Header {
+        // Creates the main header bar container widget.
+        let container = HeaderBar::new();
+
+        // Sets the text to display in the title section of the header bar.
+        container.set_title(&quot;App Name&quot;);
+        // Enable the window controls within this headerbar.
+        container.set_show_close_button(true);
+
+        // Create the hit and heal buttons.
+        let hit = Button::new_with_label(&quot;Hit&quot;);
+        let heal = Button::new_with_label(&quot;Heal&quot;);
+
+        // Add the corresponding style classes to those buttons.
+        hit.get_style_context().map(|c| c.add_class(&quot;destructive-action&quot;));
+        heal.get_style_context().map(|c| c.add_class(&quot;suggested-action&quot;));
+
+        // THen add them to the header bar.
+        container.pack_start(&amp;hit);
+        container.pack_end(&amp;heal);
+
+        // Returns the header and all of it's state
+        Header { container, hit, heal }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_ui.html#creating-the-content" id="creating-the-content"><h2>Creating the Content</h2></a>
+<p>Now it's time to create the content for our window. You will almost reach for <strong>GtkBoxes</strong> when
+constructing your UI, creating your interface with a tree-like diagram. These boxes, when initialized,
+must be specified as either <strong>Horizontal</strong> or <strong>Vertical</strong> orientations.</p>
+<p>You will amost certainly reach for <strong>GtkBoxes</strong>
+for configuring your UI. These can be created with either a <strong>Horizontal</strong> or <strong>Vertical</strong>
+alignment. These boxes are where you will add all of your widgets, where they will be stacked
+according to the alignment of the box they are attached to.</p>
+<p>We shall create a vertical box that will contain two children: a vertical <strong>GtkBox</strong> that contains
+a label and a value, followed by a simple <strong>GtkLabel</strong> underneath.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Content {
+    fn new(health: &amp;HealthComponent) -&gt; Content {
+        // Create a vertical box to store all of it's inner children vertically.
+        let container = Box::new(Orientation::Vertical, 0);
+
+        // The health info will be contained within a horizontal box within the vertical box.
+        let health_info = Box::new(Orientation::Horizontal, 0);
+        let health_label = Label::new(&quot;Current Health:&quot;);
+        let health = Label::new(health.get_health().to_string().as_str());
+
+        // Set the horizontal alignments of each of our objects.
+        health_info.set_halign(Align::Center);
+        health_label.set_halign(Align::Start);
+        health.set_halign(Align::Start);
+
+
+        // Add the health info box's children
+        health_info.pack_start(&amp;health_label, false, false, 5);
+        health_info.pack_start(&amp;health, true, true, 5);
+
+        // Create a message label that will later be modified by the application, upon
+        // performing a hit or heal action.
+        let message = Label::new(&quot;Hello&quot;);
+
+        // Add everything to our vertical box
+        container.pack_start(&amp;health_info, true, false, 0);
+        container.pack_start(&amp;Separator::new(Orientation::Horizontal), false, false, 0);
+        container.pack_start(&amp;message, true, false, 0);
+
+        Content { container, health, message }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_ui.html#set-alignments" id="set-alignments"><h3>Set Alignments</h3></a>
+<p>You may have noticed that the above code is setting horizontal alignments. Widgets can optionally
+be supplied an alignment enum to their <code>set_halign()</code> and <code>set_valign()</code> methods, which, as you
+would guess, modifies the alignment of the child within the UI.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Set the horizontal alignments of each of our objects.
+health_info.set_halign(Align::Center);
+health_label.set_halign(Align::Start);
+health.set_halign(Align::Start);
+
+#}</code></pre></pre>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_02_state.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_02_programming.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_02_state.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_02_programming.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

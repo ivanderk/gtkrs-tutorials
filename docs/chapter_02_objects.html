@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>GTK Objects Covered - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li><a href="./chapter_01.html"><strong>1.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>2.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html" class="active"><strong>2.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>2.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>2.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>2.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>2.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>3.</strong> TextViews, Text Entries, &amp; Scrolled Windows</a></li><li><a href="./chapter_04.html"><strong>4.</strong> MenuButtons, PopoverMenus, &amp; CheckButtons</a></li><li><a href="./chapter_05.html"><strong>5.</strong> ListBoxes, </a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <a class="header" href="./chapter_02_objects.html#gtk-objects-covered" id="gtk-objects-covered"><h1>GTK Objects Covered</h1></a>
+<p>The purpose of this section is to give an explanation of the objects that are about to used,
+before demonstrating how they are used in practice in subsequent sections.</p>
+<a class="header" href="./chapter_02_objects.html#gtkbox" id="gtkbox"><h2>GtkBox</h2></a>
+<p>A <strong>GtkBox</strong> is effectively a UI equivalent of vectors in Rust, and must be defined with an
+<strong>Orientation</strong>, which defines whether elements should be aligned from left to right, or
+top to bottom. For those who have experience with modern HTML5/CSS3 designs, a <strong>GtkBox</strong>
+is equivalent to a flex box -- they expand to cover the full space, and widgets contained
+within are expanded according to rules applied when packing the children.</p>
+<a class="header" href="./chapter_02_objects.html#creating-boxes" id="creating-boxes"><h3>Creating Boxes</h3></a>
+<p>In the following example, a horizontal and vertical box will be created with 0 padding between
+children contained within the box. Once you have created your box, you can assign widgets to
+the box using the <code>pack_*</code> methods.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let padding_between_children = 0;
+let horizontal_box = Box::new(Orientation::Horizontal, padding_between_children);
+let vertical_box = Box::new(Orientation::Vertical, padding_between_children);
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_objects.html#packing-boxes" id="packing-boxes"><h3>Packing Boxes</h3></a>
+<p>You may notice that the <code>pack_*</code> methods take a lot of miscellanious parameters. The first
+parameter should be a reference to the widget that you are adding to the container. The
+second and third parameters define the expand a fill parameters respectively. The final
+parameter then defines how many units of space should be between children in the box.</p>
+<blockquote>
+<p>To further elaborate on the expand and fill parameters, expand defines whether the
+given widget should attempt to use all of the extra space that it can. Each widget that has
+the expand parameter set will equally share that extra space. Meanwhile, fill defines whether
+the extra spaced should actually have that widget fill to cover that extra space, or should
+merely use that extra space as padding.</p>
+</blockquote>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+health_info.pack_start(&amp;health_label, false, false, 5);
+health_info.pack_start(&amp;health, true, true, 5);
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_objects.html#gtklabel" id="gtklabel"><h2>GtkLabel</h2></a>
+<p>A <strong>GtkLabel</strong> is simply a widget that consists solely of text. It's fairly self-explanatory
+as a result. All you truly need to memorize is how to create a label, and change a label.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let information_label = Label::new(&quot;Specific Information: &quot;);
+let value = Label::new(&quot;Linux&quot;);
+value.set_label(&quot;Redox&quot;);
+
+let horizontal_box = Box::new(Orientation::Horizontal, 5);
+horizontal_box.pack_start(&amp;information_label, false, false, 0);
+horizontal_box.pack_start(&amp;value, true, false, 0);
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_objects.html#gtkbutton" id="gtkbutton"><h2>GtkButton</h2></a>
+<a class="header" href="./chapter_02_objects.html#creating-buttons" id="creating-buttons"><h3>Creating Buttons</h3></a>
+<p>A <strong>GtkButton</strong> is a simple button that contains a text label, and/or an image to represent
+the action that is to be performed upon clicking that button.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let text_button = Button::new_with_label(&quot;Ok&quot;);
+let image_button = Button::new_from_icon_name(&quot;icon-name&quot;, 32);
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_02_objects.html#styling-buttons" id="styling-buttons"><h3>Styling Buttons</h3></a>
+<p>Widgets within GTK can be styled so that they stand out from other widgets in the UI. Buttons
+in particularl support two style classes: destructive-action, and suggested-action. If you have
+a critical button that needs to stand out in the UI, you can set them like so:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Add the corresponding style classes to those buttons.
+delete_button.get_style_context().map(|c| c.add_class(&quot;destructive-action&quot;));
+new_button.get_style_context().map(|c| c.add_class(&quot;suggested-action&quot;));
+
+#}</code></pre></pre>
+<p>Each <strong>GtkWidget</strong> provides a <strong>get_style_context()</strong> method, which returns an
+<strong>Option<StyleContext></strong>, which thereby provides an <strong>add_class()</strong> method, which is then used
+to set style classes. Got it? Good. The most important classes to know for buttons are the
+<code>destructive-action</code> and <code>suggested-action</code> buttons. Typically, a destructive action sets the
+button to a red color, while the suggested action uses a blue color. The actual color will depend
+upon which GTK theme that the user is using, though.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./chapter_02.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./chapter_02_state.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./chapter_02.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./chapter_02_state.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        
+
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

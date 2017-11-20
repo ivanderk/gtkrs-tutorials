@@ -7,6 +7,11 @@ state of your GTK UI, as well as spawning a GTK window and running your applicat
 > Before continuing, do ensure that you have added the **gtk** crate to your **Cargo.toml** file,
 > and additionally have specified at least `v3_14` as a feature to enable with the **gtk** crate.
 
+> Also note that each GTK object that you obtain from the **gtk** crates are wrapped so that you
+> need not worry about Rust borrowing rules. GTK objects are reference-counted, so when you need
+> to share a GTK object across multiple closures, you can do so by simply cloning a new
+> reference.
+
 ## Creating the GTK Application Structures
 
 The following diagram lays out how we will construct our GTK application data structure. One does

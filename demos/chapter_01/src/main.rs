@@ -25,7 +25,7 @@ pub struct App {
 }
 
 pub struct Header {
-    pub container: HeaderBar
+    pub container: HeaderBar,
 }
 
 impl App {
