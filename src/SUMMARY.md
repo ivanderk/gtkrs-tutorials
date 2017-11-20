@@ -1,5 +1,6 @@
 # Summary
 
+- [Introduction](./introduction.md)
 - [Creating a Window w/ Header Bar](./chapter_01.md)
 - [Boxes, Buttons, & Labels](./chapter_02.md)
     - [GTK Objects Covered](./chapter_02_objects.md)

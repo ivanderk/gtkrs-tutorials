@@ -1,6 +1,6 @@
 # Boxes, Buttons, & Labels
 
-This section will give look into how to structure your UI with boxes, manipulate labels,
+This section will give a look into how to structure your UI with boxes, manipulate labels,
 and programming clicked buttons with closures. By the end, you will also have an understanding
 of how to add children to a header bar, add style classes to buttons, manage application state
 via **Arc**'d atomic components, and align widgets within a container.
@@ -16,4 +16,4 @@ It is generally assumed that you have an understanding of atomics and atomic ref
 counters (**Arc**) before continuing with this tutorial. In order to share state across multiple
 programmable closures, or even multiple threads, it is vital to take advantage of these concepts.
 See the **std::sync** and **std::sync::atomic** modules to learn about them beforehand. You can
-also checkout [this paper on lockless concurrency](https://assets.bitbashing.io/papers/lockless.pdf).
+also check out [this paper on lockless concurrency](https://assets.bitbashing.io/papers/lockless.pdf).

@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./chapter_01.html"><strong>1.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>2.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>2.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>2.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>2.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>2.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>2.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>3.</strong> Entries, Dropdown Buttons, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_03_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04.html"><strong>4.</strong> Menu Buttons, Popover Menus, &amp; Check/Toggle Buttons</a></li><li><a href="./chapter_05.html"><strong>5.</strong> ListBoxes, </a></li></ul>
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> Entries, Dropdown Buttons, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_state.html"><strong>4.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04.html"><strong>5.</strong> Menu Buttons, Popover Menus, &amp; Check/Toggle Buttons</a></li><li><a href="./chapter_05.html"><strong>6.</strong> ListBoxes, </a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -68,7 +68,42 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="print.html#creating-a-window-w-header-bar" id="creating-a-window-w-header-bar"><h1>Creating a Window w/ Header Bar</h1></a>
+                    <a class="header" href="print.html#introduction--tips" id="introduction--tips"><h1>Introduction &amp; Tips</h1></a>
+<p>This unofficial GTK Rust tutorial series will focus on documenting important GTK features,
+demonstrating how they are used in practice, and displaying some Rusty software techniques
+along the way, as we explore what GTK GUI development in Rust is like.</p>
+<blockquote>
+<p>This tutorial is a very early WIP, and is subject to make structural changes in the coming
+weeks, until I am happy with the state of the documentation, and my own writing. If there
+are any issues, please send them to my <a href="mailto:mmstickman@gmail.com">email</a>, and I will
+quickly address them. The GTK API is rather extensive, so it may take a while to flesh this
+out properly.</p>
+</blockquote>
+<a class="header" href="print.html#obtaining-the-gtk-documentation" id="obtaining-the-gtk-documentation"><h2>Obtaining the GTK documentation</h2></a>
+<p>The first thing you should do is to specify the GTK features you need. The max supported
+version at this time is <strong>v3_22</strong>, which looks like so in your <strong>Cargo.toml</strong> file.</p>
+<pre><code class="language-toml">gtk = { version = &quot;0.2&quot;, features = [&quot;v3_22&quot;] }
+</code></pre>
+<p>Then you can obtain offline documentation via running the following in the terminal, within
+the root directory of your Cargo project:</p>
+<pre><code class="language-sh">cargo doc
+</code></pre>
+<p>Which will compile the documentation into <strong>target/doc/gtk/index.html</strong>.</p>
+<a class="header" href="print.html#tips-regarding-navigating-the-gtk-rust-api" id="tips-regarding-navigating-the-gtk-rust-api"><h2>Tips Regarding Navigating the GTK Rust API</h2></a>
+<p>The API for GTK in Rust is not as you might expect from other Rusty APIs, and so it may seem
+that there is a lot of missing functionality in the generated documentaion. Each GTK object
+contains an associated <strong>ObjectExt</strong> trait, such as <strong>ButtonExt</strong>. They also gain access to
+a number of other shared traits through the <strong>IsA<T></strong> wrappers, such as <strong>IsA<Container></strong>,
+and <strong>IsA<Widget></strong>. So if you want to know all of the methods that are available for an object,
+you will need to also visit the associated traits for each of those <strong>IsA<T></strong> types that are
+implemented, such as <strong>WidgetExt</strong>.</p>
+<a class="header" href="print.html#gtk-objects-dont-require-mutability" id="gtk-objects-dont-require-mutability"><h2>GTK Objects Don't Require Mutability</h2></a>
+<p>GTK objects have their own mechanisms of reference counting, and are designed so that
+you don't require ownersip or mutable access to modify them. This simplifies things greatly,
+as you will only have to worry about borrowing and ownership with native Rust types. The only
+thing that you need to be aware of is that you will need to increment reference counters when
+passing GTK objects into closures to program your UI, which is done by cloning the object.</p>
+<a class="header" href="print.html#creating-a-window-w-header-bar" id="creating-a-window-w-header-bar"><h1>Creating a Window w/ Header Bar</h1></a>
 <p>In this chapter, we will create a simple GTK application that features a header bar. This will
 serve as an introduction to the basics of creating an application structure to contain the
 state of your GTK UI, as well as spawning a GTK window and running your application.</p>
@@ -197,7 +232,7 @@ above to program the exit button to exit the program.</p>
 <p>With all of this complete, you should now have a program up and running that looks like so.</p>
 <p><img src="images/headerbar.png" /></p>
 <a class="header" href="print.html#boxes-buttons--labels" id="boxes-buttons--labels"><h1>Boxes, Buttons, &amp; Labels</h1></a>
-<p>This section will give look into how to structure your UI with boxes, manipulate labels,
+<p>This section will give a look into how to structure your UI with boxes, manipulate labels,
 and programming clicked buttons with closures. By the end, you will also have an understanding
 of how to add children to a header bar, add style classes to buttons, manage application state
 via <strong>Arc</strong>'d atomic components, and align widgets within a container.</p>
@@ -212,7 +247,7 @@ reference.</p>
 counters (<strong>Arc</strong>) before continuing with this tutorial. In order to share state across multiple
 programmable closures, or even multiple threads, it is vital to take advantage of these concepts.
 See the <strong>std::sync</strong> and <strong>std::sync::atomic</strong> modules to learn about them beforehand. You can
-also checkout <a href="https://assets.bitbashing.io/papers/lockless.pdf">this paper on lockless concurrency</a>.</p>
+also check out <a href="https://assets.bitbashing.io/papers/lockless.pdf">this paper on lockless concurrency</a>.</p>
 <a class="header" href="print.html#gtk-objects-covered" id="gtk-objects-covered"><h1>GTK Objects Covered</h1></a>
 <p>The purpose of this section is to give an explanation of the objects that are about to used,
 before demonstrating how they are used in practice in subsequent sections.</p>
