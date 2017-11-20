@@ -90,14 +90,18 @@ the root directory of your Cargo project:</p>
 </code></pre>
 <p>Which will compile the documentation into <strong>target/doc/gtk/index.html</strong>.</p>
 <a class="header" href="print.html#tips-regarding-navigating-the-gtk-rust-api" id="tips-regarding-navigating-the-gtk-rust-api"><h2>Tips Regarding Navigating the GTK Rust API</h2></a>
+<p><img src="images/api-diagram.png" /></p>
 <p>The API for GTK in Rust is not as you might expect from other Rusty APIs, and so it may seem
 that there is a lot of missing functionality in the generated documentaion. Each GTK object
-contains an associated <strong>ObjectExt</strong> trait, such as <strong>ButtonExt</strong>. They also gain access to
-a number of other shared traits through the <strong>IsA&lt;T&gt;</strong> wrappers, such as <strong>IsA&lt;Container&gt;</strong>,
-and <strong>IsA&lt;Widget&gt;</strong>. So if you want to know all of the methods that are available for an object,
-you will need to also visit the associated traits for each of those <strong>IsA&lt;T&gt;</strong> types that are
-implemented, such as <strong>WidgetExt</strong>.</p>
+contains an associated <strong>ObjectExt</strong> trait, such as <strong>ButtonExt</strong>.</p>
+<p><img src="images/traitext.png" /></p>
+<p>They also gain access to a number of other shared traits through the <strong>IsA&lt;T&gt;</strong> wrappers,
+such as <strong>IsA&lt;Container&gt;</strong>, and <strong>IsA&lt;Widget&gt;</strong>. So if you want to know all of the methods
+that are available for an object, you will need to also visit the associated traits for each of
+those <strong>IsA&lt;T&gt;</strong> types that are implemented, such as <strong>WidgetExt</strong>.</p>
+<p><img src="images/isawrapper.png" /></p>
 <a class="header" href="print.html#gtk-objects-dont-require-mutability" id="gtk-objects-dont-require-mutability"><h2>GTK Objects Don't Require Mutability</h2></a>
+<p><img src="images/rust_vs_gtk.png" /></p>
 <p>GTK objects have their own mechanisms of reference counting, and are designed so that
 you don't require ownersip or mutable access to modify them. This simplifies things greatly,
 as you will only have to worry about borrowing and ownership with native Rust types. The only

@@ -30,15 +30,24 @@ Which will compile the documentation into **target/doc/gtk/index.html**.
 
 ## Tips Regarding Navigating the GTK Rust API
 
+<img src="images/api-diagram.png" />
+
 The API for GTK in Rust is not as you might expect from other Rusty APIs, and so it may seem
 that there is a lot of missing functionality in the generated documentaion. Each GTK object
-contains an associated **ObjectExt** trait, such as **ButtonExt**. They also gain access to
-a number of other shared traits through the **IsA\<T\>** wrappers, such as **IsA\<Container\>**,
-and **IsA\<Widget\>**. So if you want to know all of the methods that are available for an object,
-you will need to also visit the associated traits for each of those **IsA\<T\>** types that are
-implemented, such as **WidgetExt**.
+contains an associated **ObjectExt** trait, such as **ButtonExt**.
+
+<img src="images/traitext.png" />
+
+They also gain access to a number of other shared traits through the **IsA\<T\>** wrappers,
+such as **IsA\<Container\>**, and **IsA\<Widget\>**. So if you want to know all of the methods
+that are available for an object, you will need to also visit the associated traits for each of
+those **IsA\<T\>** types that are implemented, such as **WidgetExt**.
+
+<img src="images/isawrapper.png" />
 
 ## GTK Objects Don't Require Mutability
+
+<img src="images/rust_vs_gtk.png" />
 
 GTK objects have their own mechanisms of reference counting, and are designed so that
 you don't require ownersip or mutable access to modify them. This simplifies things greatly,
