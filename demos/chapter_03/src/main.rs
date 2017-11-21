@@ -182,13 +182,6 @@ impl Content {
         content_view.set_top_margin(5);
         content_view.set_bottom_margin(5);
 
-        // # The above is also equivalent to the following:
-        //
-        // left_pane.set_margin_top(5);
-        // left_pane.set_margin_bottom(5);
-        // left_pane.set_margin_left(5);
-        // left_pane.set_margin_right(5);
-
         // First add everything to the left pane box.
         left_pane.pack_start(&title, false, true, 0);
         left_pane.pack_start(&tags, false, true, 0);

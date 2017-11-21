@@ -102,6 +102,141 @@ enable the user to drag the divider between the panels to resize them as needed.
 the <strong>content</strong> and <strong>right_pane</strong> fields are stored as <strong>GtkTextBuffers</strong>, instead of
 <strong>GtkTextViews</strong>. This is because we are not going to be programming the views -- just accessing
 the underlying text buffers that are associated with the views.</p>
+<a class="header" href="./chapter_03_ui.html#app-implementation" id="app-implementation"><h2>App Implementation</h2></a>
+<p>Something new that we will do here is to define the default size of the window, as we should
+have a reasonable size for the user to interact with by default, without needing to resize
+the window to get a good look at the contents within. We are also setting the title of this
+application as 'HTML Articler'. Beyond that, this should be very similar for every application
+you develop.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl App {
+    fn new() -&gt; App {
+        // Create a new top level window.
+        let window = Window::new(WindowType::Toplevel);
+        // Create a the headerbar and it's associated content.
+        let header = Header::new();
+        // Create the main content.
+        let content = Content::new();
+
+        // Set the headerbar as the title bar widget.
+        window.set_titlebar(&amp;header.container);
+        // Set the title of the window.
+        window.set_title(&quot;HTML Articler&quot;);
+        // Set the window manager class.
+        window.set_wmclass(&quot;html-articler&quot;, &quot;HTML Articler&quot;);
+        // The icon the app will display.
+        Window::set_default_icon_name(&quot;iconname&quot;);
+        // Set the default size of the window.
+        window.set_default_size(800, 600);
+        // Add the content to the window.
+        window.add(&amp;content.container);
+
+        // Programs what to do when the exit button is used.
+        window.connect_delete_event(move |_, _| {
+            main_quit();
+            Inhibit(false)
+        });
+
+        // Return our main application state
+        App { window, header, content }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_03_ui.html#header-implementation" id="header-implementation"><h2>Header Implementation</h2></a>
+<p>Our header bar will simply have a button with a &quot;Post&quot; label, which is given a 'suggested-action'
+as a style class, and packed at the end of the bar. The title of the bar should also be set to
+the name of our application.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Header {
+    fn new() -&gt; Header {
+        // Creates the main header bar container widget.
+        let container = HeaderBar::new();
+
+        // Sets the text to display in the title section of the header bar.
+        container.set_title(&quot;HTML Articler&quot;);
+        // Enable the window controls within this headerbar.
+        container.set_show_close_button(true);
+
+        // Create a button that will post the HTML article.
+        let post = Button::new_with_label(&quot;Post&quot;);
+        post.get_style_context().map(|x| x.add_class(&quot;suggested-action&quot;));
+
+        container.pack_end(&amp;post);
+
+        // Returns the header and all of it's state
+        Header { container, post }
+    }
+}
+
+#}</code></pre></pre>
+<a class="header" href="./chapter_03_ui.html#content-implementation" id="content-implementation"><h2>Content Implementation</h2></a>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+impl Content {
+    fn new() -&gt; Content {
+        // The main container will hold a left and right pane. The left pane is for user input,
+        // whereas the right pane is for the generated output.
+        let container = Paned::new(Orientation::Horizontal);
+        let left_pane = Box::new(Orientation::Vertical, 5);
+        let right_pane = TextBuffer::new(None);
+        let right_pane_view = TextView::new_with_buffer(&amp;right_pane);
+
+        // The left pane will consist of a title entry, tags entry, and content text view.
+        let title = Entry::new();
+        let tags = Entry::new();
+        let content = TextBuffer::new(None);
+        let content_view = TextView::new_with_buffer(&amp;content);
+        let content_label = Label::new(&quot;Content&quot;);
+        content_label.set_halign(Align::Center);
+
+        // Set placeholders within the entries to hint the user of the contents to enter.
+        title.set_placeholder_text(&quot;Insert Title&quot;);
+        tags.set_placeholder_text(&quot;Insert Colon-Delimited Tags&quot;);
+
+        // Additionally set tooltips on the entries. Note that you may use either text or markup.
+        title.set_tooltip_text(&quot;Insert the title of article here&quot;);
+        tags.set_tooltip_markup(&quot;&lt;b&gt;tag_one&lt;/b&gt;:&lt;b&gt;tag two&lt;/b&gt;:&lt;b&gt; tag three&lt;/b&gt;&quot;);
+
+        // The right pane should disallow editing; and both editors should wrap by word.
+        right_pane_view.set_editable(false);
+        right_pane_view.set_wrap_mode(WrapMode::Word);
+        content_view.set_wrap_mode(WrapMode::Word);
+
+        // Wrap the text views within scrolled windows, so that they can scroll.
+        let content_scroller = ScrolledWindow::new(None, None);
+        let right_pane_scrolled = ScrolledWindow::new(None, None);
+        content_scroller.add(&amp;content_view);
+        right_pane_scrolled.add(&amp;right_pane_view);
+
+        // Paddin' Widgets
+        left_pane.set_border_width(5);
+        right_pane_view.set_left_margin(5);
+        right_pane_view.set_right_margin(5);
+        right_pane_view.set_top_margin(5);
+        right_pane_view.set_bottom_margin(5);
+        content_view.set_left_margin(5);
+        content_view.set_right_margin(5);
+        content_view.set_top_margin(5);
+        content_view.set_bottom_margin(5);
+
+        // First add everything to the left pane box.
+        left_pane.pack_start(&amp;title, false, true, 0);
+        left_pane.pack_start(&amp;tags, false, true, 0);
+        left_pane.pack_start(&amp;content_label, false, false, 0);
+        left_pane.pack_start(&amp;content_scroller, true, true, 0);
+
+        // Then add the left and right panes into the container
+        container.pack1(&amp;left_pane, true, true);
+        container.pack2(&amp;right_pane_scrolled, true, true);
+
+        Content { container, title, tags, content, right_pane }
+    }
+}
+
+#}</code></pre></pre>
 
                 </div>
 
