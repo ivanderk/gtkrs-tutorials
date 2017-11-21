@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Button Boxer: Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> HTML Articler: Entries, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li></ul>
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Window With A Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Button Boxer</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> Boxes, Buttons, &amp; Labels</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Maintaining External State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> HTML Articler</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> Entries, Panes, Scrolled Windows, &amp; Text Views</a></li><li><a href="./chapter_03_horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -107,7 +107,7 @@ you don't require ownersip or mutable access to modify them. This simplifies thi
 as you will only have to worry about borrowing and ownership with native Rust types. The only
 thing that you need to be aware of is that you will need to increment reference counters when
 passing GTK objects into closures to program your UI, which is done by cloning the object.</p>
-<a class="header" href="print.html#creating-a-window-w-header-bar" id="creating-a-window-w-header-bar"><h1>Creating a Window w/ Header Bar</h1></a>
+<a class="header" href="print.html#window-with-a-header-bar" id="window-with-a-header-bar"><h1>Window With A Header Bar</h1></a>
 <p><img src="images/headerbar.png" /></p>
 <p>In this chapter, we will create a simple GTK application that features a header bar. This will
 serve as an introduction to the basics of creating a GTK application data structure to contain
@@ -231,7 +231,7 @@ above to program the exit button to exit the program.</p>
 <a class="header" href="print.html#the-result" id="the-result"><h2>The Result</h2></a>
 <p>With all of this complete, you should now have a program up and running that looks like so.</p>
 <p><img src="images/headerbar.png" /></p>
-<a class="header" href="print.html#boxes-buttons--labels" id="boxes-buttons--labels"><h1>Boxes, Buttons, &amp; Labels</h1></a>
+<a class="header" href="print.html#button-boxer" id="button-boxer"><h1>Button Boxer</h1></a>
 <p><img src="images/ch02_complete.png" /></p>
 <p>This section will give a look into how to structure your UI with boxes, manipulate labels,
 and programming clicked buttons with closures. By the end, you will also have an understanding
@@ -249,7 +249,7 @@ counters (<strong>Arc</strong>) before continuing with this tutorial. In order t
 programmable closures, or even multiple threads, it is vital to take advantage of these concepts.
 See the <strong>std::sync</strong> and <strong>std::sync::atomic</strong> modules to learn about them beforehand. You can
 also check out <a href="https://assets.bitbashing.io/papers/lockless.pdf">this paper on lockless concurrency</a>.</p>
-<a class="header" href="print.html#gtk-objects-covered" id="gtk-objects-covered"><h1>GTK Objects Covered</h1></a>
+<a class="header" href="print.html#boxes-buttons--labels" id="boxes-buttons--labels"><h1>Boxes, Buttons, &amp; Labels</h1></a>
 <p>The purpose of this section is to give an explanation of the objects that are about to used,
 before demonstrating how they are used in practice in subsequent sections.</p>
 <a class="header" href="print.html#gtkbox" id="gtkbox"><h2>GtkBox</h2></a>
@@ -328,7 +328,7 @@ to set style classes. Got it? Good. The most important classes to know for butto
 <code>destructive-action</code> and <code>suggested-action</code> buttons. Typically, a destructive action sets the
 button to a red color, while the suggested action uses a blue color. The actual color will depend
 upon which GTK theme that the user is using, though.</p>
-<a class="header" href="print.html#creating-and-maintaining-state" id="creating-and-maintaining-state"><h1>Creating and Maintaining State</h1></a>
+<a class="header" href="print.html#maintaining-external-state" id="maintaining-external-state"><h1>Maintaining External State</h1></a>
 <p>In this chapter, we are going to have some state that we will manipulate with the UI. We
 therefore need a means of storing and loading values from that state. The program that
 we are going to create has a single component: a health value.</p>
@@ -713,7 +713,7 @@ world!</p>
 <p>Do the same as the above, but also take advantage of
 <a href="https://docs.rs/gtk/0.2.0/gtk/fn.timeout_add.html">gtk::timeout_add()</a> to decrement
 and update a timer label within the UI until the timer reaches zero.</p>
-<a class="header" href="print.html#html-articler-entries-scrolled-windows--text-views" id="html-articler-entries-scrolled-windows--text-views"><h1>HTML Articler: Entries, Scrolled Windows, &amp; Text Views</h1></a>
+<a class="header" href="print.html#html-articler" id="html-articler"><h1>HTML Articler</h1></a>
 <p><img src="images/ch03_complete.png" /></p>
 <p>In this chapter, you will begin to write useful software that takes advantage of text entries
 and text views, to allow the user to enter data within various input fields, and to generate
@@ -726,11 +726,60 @@ within the right text view.</p>
 last. All of the state that we are concerned with is contained within the GTK objects that
 we will be interacting with.</p>
 </blockquote>
-<a class="header" href="print.html#gtk-objects-covered-1" id="gtk-objects-covered-1"><h1>GTK Objects Covered</h1></a>
+<a class="header" href="print.html#entries-panes-scrolled-windows--text-views" id="entries-panes-scrolled-windows--text-views"><h1>Entries, Panes, Scrolled Windows, &amp; Text Views</h1></a>
 <a class="header" href="print.html#gtkpaned" id="gtkpaned"><h2>GtkPaned</h2></a>
+<p>These are containers that may be oriented either vertically or horizontally, and feature two
+resizeable children. These children are resized merely by clicking and dragging the divider
+between them.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let container = Paned::new(Orientation::Horizontal);
+let left_widget = ...;
+let right_widget = ...;
+container.pack1(&amp;left_widget, true, true);
+container.pack2(&amp;right_widget, true, true);
+
+#}</code></pre></pre>
+<p>Within the pack methods above, the two <code>true</code> values designate whether the child can shrink,
+and whether the child can be resized.</p>
 <a class="header" href="print.html#gtkentry" id="gtkentry"><h2>GtkEntry</h2></a>
+<p>Entries enable the UI to accept a line of text as input, which can be utilized by other widgets
+to perform certain actions using that text as the input.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let entry = Entry::new();
+entry.set_text(&quot;Some Text&quot;);
+if let Some(text) = entry.get_text() {
+    println!(&quot;{}&quot;, text);
+}
+
+#}</code></pre></pre>
 <a class="header" href="print.html#gtktextview" id="gtktextview"><h2>GtkTextView</h2></a>
+<p>Text views serve two purposes: the ability to display multiple lines of text within a text box,
+and the ability to input multiple lines of text. These may be configured to be non-editable,
+if editing a view is not desired. They also provide methods for controlling the word-wrapping
+behavior. They aren't capable of handling formatted text, however, or useful as a code editor.
+If you want text to be rendered in HTML, see <strong>GtkWebView</strong>; and if you want a code editor, see
+<strong>GtkSourceView</strong>.</p>
+<blockquote>
+<p>Note that it is often times best to create and assign the <strong>GtkTextBuffer</strong> to your text view
+manually, in order to get a handle to that buffer which you can store, and avoid some
+indirection when programming your UI, and to get direct access to the text within.</p>
+</blockquote>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+
+#fn main() {
+
+#}</code></pre></pre>
 <a class="header" href="print.html#gtkscrolledwindow" id="gtkscrolledwindow"><h2>GtkScrolledWindow</h2></a>
+<p>These are single-element boxes that feature a scrollable window within. It can be useful to combine
+them with text views to enable text views to scroll. This is precisely what we are about to do
+within this chapter.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+
+#fn main() {
+
+#}</code></pre></pre>
 <a class="header" href="print.html#horrorshow-html-templating" id="horrorshow-html-templating"><h1>Horrorshow HTML Templating</h1></a>
 <p>Although not related to GTK development, the <a href="docs.rs/horrorshow/">horrorshow crate</a> provides
 very useful macro-based HTML templating capabilities, which allows you to efficiently generate
@@ -764,6 +813,39 @@ let html_string = format!(
 
 #}</code></pre></pre>
 <a class="header" href="print.html#creating-the-ui-structure-1" id="creating-the-ui-structure-1"><h1>Creating the UI Structure</h1></a>
+<p><img src="images/ch03_complete.png" /></p>
+<p>Using the first chapter as a template and expanding upon that, we shall design our UI according
+to the vision of our UI, pictured above. The key widgets to take note of are the <strong>post</strong> button
+in the header bar; and within our content window is a <strong>title</strong> entry, <strong>tags</strong> entry,
+<strong>content</strong> text view, and a <strong>right_pane</strong> text view for displaying the output in HTML. As such,
+our application's UI structure should look as so:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+pub struct App {
+    pub window: Window,
+    pub header: Header,
+    pub content: Content,
+}
+
+pub struct Header {
+    pub container: HeaderBar,
+    pub post: Button
+}
+
+pub struct Content {
+    pub container: Paned,
+    pub title: Entry,
+    pub tags: Entry,
+    pub content: TextBuffer,
+    pub right_pane: TextBuffer,
+}
+
+#}</code></pre></pre>
+<p>Note that the container for our content will not be a <strong>GtkBox</strong>, but a <strong>GtkPaned</strong>. This will
+enable the user to drag the divider between the panels to resize them as needed. In addition,
+the <strong>content</strong> and <strong>right_pane</strong> fields are stored as <strong>GtkTextBuffers</strong>, instead of
+<strong>GtkTextViews</strong>. This is because we are not going to be programming the views -- just accessing
+the underlying text buffers that are associated with the views.</p>
 <a class="header" href="print.html#programming-the-ui-1" id="programming-the-ui-1"><h1>Programming the UI</h1></a>
 <a class="header" href="print.html#conclusion--review-1" id="conclusion--review-1"><h1>Conclusion &amp; Review</h1></a>
 

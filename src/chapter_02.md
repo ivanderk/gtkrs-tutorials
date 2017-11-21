@@ -1,4 +1,4 @@
-# Boxes, Buttons, & Labels
+# Button Boxer
 
 <img src="images/ch02_complete.png" />
 

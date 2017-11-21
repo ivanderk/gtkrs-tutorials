@@ -1,4 +1,4 @@
-# Creating a Window w/ Header Bar
+# Window With A Header Bar
 
 <img src="images/headerbar.png" />
 

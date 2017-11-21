@@ -1,4 +1,4 @@
-# GTK Objects Covered
+# Boxes, Buttons, & Labels
 
 The purpose of this section is to give an explanation of the objects that are about to used,
 before demonstrating how they are used in practice in subsequent sections.

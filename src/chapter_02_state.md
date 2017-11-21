@@ -1,4 +1,4 @@
-# Creating and Maintaining State
+# Maintaining External State
 
 In this chapter, we are going to have some state that we will manipulate with the UI. We
 therefore need a means of storing and loading values from that state. The program that

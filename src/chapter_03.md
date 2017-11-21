@@ -1,4 +1,4 @@
-# HTML Articler: Entries, Scrolled Windows, & Text Views
+# HTML Articler
 
 <img src="images/ch03_complete.png" />
 
