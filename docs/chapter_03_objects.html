@@ -109,8 +109,26 @@ manually, in order to get a handle to that buffer which you can store, and avoid
 indirection when programming your UI, and to get direct access to the text within.</p>
 </blockquote>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-
 #fn main() {
+// The buffer for the text view, with `None` as the parameter because we are
+// not going to define any text tags for this buffer.
+let text_buffer = TextBuffer::new(None);
+// Then we shall assign the buffer to a new text view, which will automatically
+// update itself as text is added or removed from the buffer.
+let text_view = TextView::new_with_buffer(&amp;text_buffer);
+
+#}</code></pre></pre>
+<p>Getting text from a <strong>GtkTextBuffer</strong> is a little tricky, so here's an abstraction which you
+can use to specify to grab the entire range of the buffer and return it as a <strong>String</strong>. As it
+turns out, you may specify a specific range of text to obtain from this buffer.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Obtain the entire text buffer's contents as a string.
+fn get_buffer(buffer: &amp;TextBuffer) -&gt; Option&lt;String&gt; {
+    let start = buffer.get_start_iter();
+    let end = buffer.get_end_iter();
+    buffer.get_text(&amp;start, &amp;end, true)
+}
 
 #}</code></pre></pre>
 <a class="header" href="./chapter_03_objects.html#gtkscrolledwindow" id="gtkscrolledwindow"><h2>GtkScrolledWindow</h2></a>
@@ -118,8 +136,9 @@ indirection when programming your UI, and to get direct access to the text withi
 them with text views to enable text views to scroll. This is precisely what we are about to do
 within this chapter.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-
 #fn main() {
+let scrolled_window = ScrolledWindow::new(None, None);
+scrolled_window.add(&amp;text_view);
 
 #}</code></pre></pre>
 

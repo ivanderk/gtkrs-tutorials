@@ -44,7 +44,25 @@ If you want text to be rendered in HTML, see **GtkWebView**; and if you want a c
 > indirection when programming your UI, and to get direct access to the text within.
 
 ```rust
+// The buffer for the text view, with `None` as the parameter because we are
+// not going to define any text tags for this buffer.
+let text_buffer = TextBuffer::new(None);
+// Then we shall assign the buffer to a new text view, which will automatically
+// update itself as text is added or removed from the buffer.
+let text_view = TextView::new_with_buffer(&text_buffer);
+```
 
+Getting text from a **GtkTextBuffer** is a little tricky, so here's an abstraction which you
+can use to specify to grab the entire range of the buffer and return it as a **String**. As it
+turns out, you may specify a specific range of text to obtain from this buffer.
+
+```rust
+/// Obtain the entire text buffer's contents as a string.
+fn get_buffer(buffer: &TextBuffer) -> Option<String> {
+    let start = buffer.get_start_iter();
+    let end = buffer.get_end_iter();
+    buffer.get_text(&start, &end, true)
+}
 ```
 
 ## GtkScrolledWindow
@@ -54,5 +72,6 @@ them with text views to enable text views to scroll. This is precisely what we a
 within this chapter.
 
 ```rust
-
+let scrolled_window = ScrolledWindow::new(None, None);
+scrolled_window.add(&text_view);
 ```

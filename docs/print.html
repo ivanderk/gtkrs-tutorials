@@ -767,8 +767,26 @@ manually, in order to get a handle to that buffer which you can store, and avoid
 indirection when programming your UI, and to get direct access to the text within.</p>
 </blockquote>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-
 #fn main() {
+// The buffer for the text view, with `None` as the parameter because we are
+// not going to define any text tags for this buffer.
+let text_buffer = TextBuffer::new(None);
+// Then we shall assign the buffer to a new text view, which will automatically
+// update itself as text is added or removed from the buffer.
+let text_view = TextView::new_with_buffer(&amp;text_buffer);
+
+#}</code></pre></pre>
+<p>Getting text from a <strong>GtkTextBuffer</strong> is a little tricky, so here's an abstraction which you
+can use to specify to grab the entire range of the buffer and return it as a <strong>String</strong>. As it
+turns out, you may specify a specific range of text to obtain from this buffer.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Obtain the entire text buffer's contents as a string.
+fn get_buffer(buffer: &amp;TextBuffer) -&gt; Option&lt;String&gt; {
+    let start = buffer.get_start_iter();
+    let end = buffer.get_end_iter();
+    buffer.get_text(&amp;start, &amp;end, true)
+}
 
 #}</code></pre></pre>
 <a class="header" href="print.html#gtkscrolledwindow" id="gtkscrolledwindow"><h2>GtkScrolledWindow</h2></a>
@@ -776,8 +794,9 @@ indirection when programming your UI, and to get direct access to the text withi
 them with text views to enable text views to scroll. This is precisely what we are about to do
 within this chapter.</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
-
 #fn main() {
+let scrolled_window = ScrolledWindow::new(None, None);
+scrolled_window.add(&amp;text_view);
 
 #}</code></pre></pre>
 <a class="header" href="print.html#horrorshow-html-templating" id="horrorshow-html-templating"><h1>Horrorshow HTML Templating</h1></a>
@@ -1193,6 +1212,20 @@ delimited by colons.</p>
 <p>With all this in place, you should have a fully functioning program that looks like the original
 picture.</p>
 <a class="header" href="print.html#conclusion--review-1" id="conclusion--review-1"><h1>Conclusion &amp; Review</h1></a>
+<p><img src="images/ch03_complete.png" /></p>
+<p>At this point, you should begin to have a good understanding of how to write GTK
+applications with Rust. At this point, you should know how to do the following:</p>
+<ul>
+<li>Creating, getting, and assigning values to <strong>Labels</strong></li>
+<li>Creating, getting, and assigning values to <strong>Entries</strong></li>
+<li>Creating, getting, and assigning values to <strong>TextBuffers</strong></li>
+<li>Creating and assigning buffers to <strong>TextViews</strong></li>
+<li>Creating, styling, and program <strong>Buttons</strong></li>
+<li>Assign widgets to <strong>Boxes</strong> and <strong>Paned</strong> containers</li>
+<li>Set paddings and margins on widgets</li>
+<li>Maintaining External States</li>
+</ul>
+<a class="header" href="print.html#practice-challenges-1" id="practice-challenges-1"><h2>Practice Challenges</h2></a>
 
                 </div>
 
