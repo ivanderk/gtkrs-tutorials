@@ -149,6 +149,8 @@ impl Content {
         let tags = Entry::new();
         let content = TextBuffer::new(None);
         let content_view = TextView::new_with_buffer(&content);
+
+        // The label that we will display above the content box to describe it.
         let content_label = Label::new("Content");
         content_label.set_halign(Align::Center);
 

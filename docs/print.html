@@ -917,6 +917,105 @@ impl Header {
 
 #}</code></pre></pre>
 <a class="header" href="print.html#content-implementation" id="content-implementation"><h2>Content Implementation</h2></a>
+<p>This is where we will spend most of our time for this application. First we create a
+<strong>GtkPaned</strong> container that will hold our resizeable left and right panes. Our right pane
+will be a <strong>GtkTextView</strong>, whereas the left pane is a vertical <strong>GtkBox</strong>. Note that we
+are interested in getting direct access to that text view's buffer, so we will also
+initialize that before creating the view. The left pane's box will have a padding of <code>5</code>
+between children, just so that they aren't smushed together.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The main container will hold a left and right pane. The left pane is for user input,
+// whereas the right pane is for the generated output.
+let container = Paned::new(Orientation::Horizontal);
+let left_pane = Box::new(Orientation::Vertical, 5);
+let right_pane = TextBuffer::new(None);
+let right_pane_view = TextView::new_with_buffer(&amp;right_pane);
+
+#}</code></pre></pre>
+<p>Then comes creating the <strong>title</strong> and <strong>tags</strong> entries, as well as the <strong>content</strong> view that
+we will use to construct the left pane.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The left pane will consist of a title entry, tags entry, and content text view.
+let title = Entry::new();
+let tags = Entry::new();
+let content = TextBuffer::new(None);
+let content_view = TextView::new_with_buffer(&amp;content);
+
+#}</code></pre></pre>
+<p>Note that we will also be storing a centered label above the <strong>content</strong> text view, followed
+by adding some placeholder text within the entries, and tooltips to display when a mouse is
+hovering over the entries.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The label that we will display above the content box to describe it.
+let content_label = Label::new(&quot;Content&quot;);
+content_label.set_halign(Align::Center);
+
+// Set placeholders within the entries to hint the user of the contents to enter.
+title.set_placeholder_text(&quot;Insert Title&quot;);
+tags.set_placeholder_text(&quot;Insert Colon-Delimited Tags&quot;);
+
+// Additionally set tooltips on the entries. Note that you may use either text or markup.
+title.set_tooltip_text(&quot;Insert the title of article here&quot;);
+tags.set_tooltip_markup(&quot;&lt;b&gt;tag_one&lt;/b&gt;:&lt;b&gt;tag two&lt;/b&gt;:&lt;b&gt; tag three&lt;/b&gt;&quot;);
+
+#}</code></pre></pre>
+<p>Then ensuring that the right pane's text view is not editable, and both of the text views
+have their text wrapped by words.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// The right pane should disallow editing; and both editors should wrap by word.
+right_pane_view.set_editable(false);
+right_pane_view.set_wrap_mode(WrapMode::Word);
+content_view.set_wrap_mode(WrapMode::Word);
+
+#}</code></pre></pre>
+<p>Now we just need to wrap the text views within some <strong>GtkScrolledWindows</strong> to enable the user
+to scroll through the text, in the event that there is enough text that it cannot be displayed
+all at once within the widget.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Wrap the text views within scrolled windows, so that they can scroll.
+let content_scroller = ScrolledWindow::new(None, None);
+let right_pane_scrolled = ScrolledWindow::new(None, None);
+content_scroller.add(&amp;content_view);
+right_pane_scrolled.add(&amp;right_pane_view);
+
+#}</code></pre></pre>
+<p>And to make our UI look better, we can apply some borders and margins accordingly.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// Paddin' Widgets
+left_pane.set_border_width(5);
+right_pane_view.set_left_margin(5);
+right_pane_view.set_right_margin(5);
+right_pane_view.set_top_margin(5);
+right_pane_view.set_bottom_margin(5);
+content_view.set_left_margin(5);
+content_view.set_right_margin(5);
+content_view.set_top_margin(5);
+content_view.set_bottom_margin(5);
+
+#}</code></pre></pre>
+<p>And all that remains is to pack our widgets into their panes and return a <strong>Content</strong> structure.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+// First add everything to the left pane box.
+left_pane.pack_start(&amp;title, false, true, 0);
+left_pane.pack_start(&amp;tags, false, true, 0);
+left_pane.pack_start(&amp;content_label, false, false, 0);
+left_pane.pack_start(&amp;content_scroller, true, true, 0);
+
+// Then add the left and right panes into the container
+container.pack1(&amp;left_pane, true, true);
+container.pack2(&amp;right_pane_scrolled, true, true);
+
+Content { container, title, tags, content, right_pane }
+
+#}</code></pre></pre>
+<p>Put it all together, and you should have an implementation that looks as follows:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
 #fn main() {
 impl Content {
@@ -933,6 +1032,8 @@ impl Content {
         let tags = Entry::new();
         let content = TextBuffer::new(None);
         let content_view = TextView::new_with_buffer(&amp;content);
+
+        // The label that we will display above the content box to describe it.
         let content_label = Label::new(&quot;Content&quot;);
         content_label.set_halign(Align::Center);
 
