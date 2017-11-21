@@ -69,6 +69,115 @@
 
                 <div id="content" class="content">
                     <a class="header" href="./chapter_03_programming.html#programming-the-ui" id="programming-the-ui"><h1>Programming the UI</h1></a>
+<p>So, with all the widgets that are going to interact with each other, you might think that this
+part will be a tiny bit difficult to implement. Well, if you think that, you're completely
+wrong, as this will actually be the easiest part of the program to implement! Starting with
+chapter 1's main function as a template, which looks like so:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+    // Initialize GTK before proceeding.
+    if gtk::init().is_err() {
+        eprintln!(&quot;failed to initialize GTK Application&quot;);
+        process::exit(1);
+    }
+
+    // Initialize the UI's initial state
+    let app = App::new();
+
+    // Program your widgets here!
+
+    // Make all the widgets within the UI visible.
+    app.window.show_all();
+
+    // Start the GTK main event loop
+    gtk::main();
+}
+</code></pre></pre>
+<p>We are going to program the <strong>Post button</strong> to take the <strong>title</strong> and <strong>tags</strong> entries, as well
+as the <strong>content</strong> text view's buffer, pass the strings from these widgets directly through
+a horrorshow HTML macro, and write the output into the <strong>right_pane's</strong> text buffer. The code for
+programming the button will look as follows:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+{
+    // Program the post button to take the inputs in the left pane, and update HTML code
+    // within the right pane accordingly. Prepared to increment reference counters...
+    let title = app.content.title.clone();
+    let tags = app.content.tags.clone();
+    let content = app.content.content.clone();
+    let right_pane = app.content.right_pane.clone();
+    app.header.post.connect_clicked(move |_| {
+        let inputs = (title.get_text(), tags.get_text(), get_buffer(&amp;content));
+        if let (Some(title), Some(tags), Some(content)) = inputs {
+            right_pane.set_text(&amp;generate_html(&amp;title, &amp;tags, &amp;content));
+        }
+    });
+}
+
+#}</code></pre></pre>
+<p>Note that obtaining the text from an entry is very straightforward. All it takes is to invoke the
+<strong>get_text()</strong> method, which returns an <strong>Option&lt;String&gt;</strong>. Getting text from a text buffer is
+slightly more difficult, so you will need to use the abstraction that was recommended at the
+beginning of this chapter. This function is written as so:</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Obtain the entire text buffer's contents as a string.
+fn get_buffer(buffer: &amp;TextBuffer) -&gt; Option&lt;String&gt; {
+    let start = buffer.get_start_iter();
+    let end = buffer.get_end_iter();
+    buffer.get_text(&amp;start, &amp;end, true)
+}
+
+#}</code></pre></pre>
+<p>You will also notice this interesting pattern in Rust that has majorly simplified things for us
+when obtaining each of the inputs, to collectively check if all inputs have an input before
+attempting to do anything with the inputs. The <strong>if let</strong> syntax in Rust works on more than just
+patterns, but tuples as well, so you may check multiple values within a tuple at the same time,
+just as you would in a <strong>match</strong>.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+let inputs = (title.get_text(), tags.get_text(), get_buffer(&amp;content));
+if let (Some(title), Some(tags), Some(content)) = inputs {
+    right_pane.set_text(&amp;generate_html(&amp;title, &amp;tags, &amp;content));
+}
+
+#}</code></pre></pre>
+<p>Althugh we have yet to define our <strong>generate_html</strong> function, and this will be the final
+component for implementing this application. The simplest way to use the <strong>html!</strong> macro is to
+use it as an argument within the <strong>format!</strong> macro. And so, our function will look as so,
+although you are free to implement the HTML macro however you like.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+/// Generates the minified HTML that will be displayed in the right pane
+fn generate_html(title: &amp;str, tags: &amp;str, content: &amp;str) -&gt; String {
+    format!{
+        &quot;{}&quot;,
+        html!{
+            article {
+                header {
+                    h1 { : &amp;title }
+                    div(class=&quot;tags&quot;) {
+                        @ for tag in tags.split(':') {
+                            div(class=&quot;tag&quot;) { : tag }
+                        }
+                    }
+                }
+                @ for line in content.lines().filter(|x| !x.is_empty()) {
+                    p { : line }
+                }
+            }
+        }
+    }
+}
+
+#}</code></pre></pre>
+<p>The above syntax should be fairly readable. We create a pair of <strong>article</strong> tags, which contain
+a both a pair of <strong>header</strong> tags, and and a <strong>p</strong> paragraph for each non-empty line of input that
+was obtained from the <strong>content</strong> text buffer. Within the <strong>header</strong> tags is a <strong>h1</strong> header that
+is defined to use the title entry as the text within, and a <strong>div</strong> that contains a list of tags,
+delimited by colons.</p>
+<p><img src="images/ch03_complete.png" /></p>
+<p>With all this in place, you should have a fully functioning program that looks like the original
+picture.</p>
 
                 </div>
 

@@ -1,5 +1,6 @@
-             extern crate gtk;
-#[macro_use] extern crate horrorshow;
+extern crate gtk;
+#[macro_use]
+extern crate horrorshow;
 
 use gtk::*;
 use std::process;
@@ -22,35 +23,9 @@ fn main() {
         let content = app.content.content.clone();
         let right_pane = app.content.right_pane.clone();
         app.header.post.connect_clicked(move |_| {
-            // Obtain the entire text buffer's contents as a string.
-            fn get_buffer(buffer: &TextBuffer) -> Option<String> {
-                let start = buffer.get_start_iter();
-                let end = buffer.get_end_iter();
-                buffer.get_text(&start, &end, true)
-            }
-
             let inputs = (title.get_text(), tags.get_text(), get_buffer(&content));
             if let (Some(title), Some(tags), Some(content)) = inputs {
-                let generated = format!{
-                    "{}",
-                    html!{
-                        article {
-                            header {
-                                h1 { : &title }
-                                div(class="tags") {
-                                    @ for tag in tags.split(':') {
-                                        div(class="tag") { : tag }
-                                    }
-                                }
-                            }
-                            @ for line in content.lines().filter(|x| !x.is_empty()) {
-                                p { : line }
-                            }
-                        }
-                    }
-                };
-
-                right_pane.set_text(&generated);
+                right_pane.set_text(&generate_html(&title, &tags, &content));
             }
         });
     }
@@ -62,22 +37,51 @@ fn main() {
     gtk::main();
 }
 
+/// Obtain the entire text buffer's contents as a string.
+fn get_buffer(buffer: &TextBuffer) -> Option<String> {
+    let start = buffer.get_start_iter();
+    let end = buffer.get_end_iter();
+    buffer.get_text(&start, &end, true)
+}
+
+/// Generates the minified HTML that will be displayed in the right pane
+fn generate_html(title: &str, tags: &str, content: &str) -> String {
+    format!{
+        "{}",
+        html!{
+            article {
+                header {
+                    h1 { : &title }
+                    div(class="tags") {
+                        @ for tag in tags.split(':') {
+                            div(class="tag") { : tag }
+                        }
+                    }
+                }
+                @ for line in content.lines().filter(|x| !x.is_empty()) {
+                    p { : line }
+                }
+            }
+        }
+    }
+}
+
 pub struct App {
-    pub window: Window,
-    pub header: Header,
+    pub window:  Window,
+    pub header:  Header,
     pub content: Content,
 }
 
 pub struct Header {
     pub container: HeaderBar,
-    pub post: Button
+    pub post:      Button,
 }
 
 pub struct Content {
-    pub container: Paned,
-    pub title: Entry,
-    pub tags: Entry,
-    pub content: TextBuffer,
+    pub container:  Paned,
+    pub title:      Entry,
+    pub tags:       Entry,
+    pub content:    TextBuffer,
     pub right_pane: TextBuffer,
 }
 
