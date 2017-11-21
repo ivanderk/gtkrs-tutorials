@@ -1,7 +1,9 @@
 # GTK Objects Covered
 
+## GtkPaned
+
 ## GtkEntry
 
-## GtkScrolledWindow
-
 ## GtkTextView
+
+## GtkScrolledWindow

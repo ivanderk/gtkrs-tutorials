@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Creating and Maintaining State - </title>
+        <title>Horrorshow HTML Templating - </title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> Entries, Dropdown Buttons, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_state.html" class="active"><strong>4.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04.html"><strong>5.</strong> Menu Buttons, Popover Menus, &amp; Check/Toggle Buttons</a></li><li><a href="./chapter_05.html"><strong>6.</strong> ListBoxes, </a></li></ul>
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Button Boxer: Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> HTML Articler: Entries, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_horrorshow.html" class="active"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -68,7 +68,38 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="./chapter_03_state.html#creating-and-maintaining-state" id="creating-and-maintaining-state"><h1>Creating and Maintaining State</h1></a>
+                    <a class="header" href="./chapter_03_horrorshow.html#horrorshow-html-templating" id="horrorshow-html-templating"><h1>Horrorshow HTML Templating</h1></a>
+<p>Although not related to GTK development, the <a href="docs.rs/horrorshow/">horrorshow crate</a> provides
+very useful macro-based HTML templating capabilities, which allows you to efficiently generate
+an HTML string in memory using a DSL (domain-specific language) combined with Rust, which can
+be invoked through usage of the <code>@</code> sigil.</p>
+<pre><pre class="playpen"><code class="language-rust"># #![allow(unused_variables)]
+#fn main() {
+#[macro_use]
+extern crate horrorshow;
+use horrorshow::helper::doctype;
+
+let title = &quot;Title&quot;;
+let content = &quot;A string\nwith multiple\n\nlines&quot;;
+let html_string = format!(
+    &quot;{}&quot;,
+    html!{
+        : doctype::HTML,
+        html {
+            head {
+                style { : &quot;#style { }&quot; }
+            }
+            body {
+                h1(id=&quot;style&quot;) { : title }
+                @ for line in content.lines().filter(|x| !x.is_empty()) {
+                    p { : line }
+                }
+            }
+        }
+    }
+);
+
+#}</code></pre></pre>
 
                 </div>
 
@@ -111,6 +142,20 @@
 
         <!-- Livereload script (if served using the cli tool) -->
         
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
 
         
 

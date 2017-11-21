@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html" class="active"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> Entries, Dropdown Buttons, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_state.html"><strong>4.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04.html"><strong>5.</strong> Menu Buttons, Popover Menus, &amp; Check/Toggle Buttons</a></li><li><a href="./chapter_05.html"><strong>6.</strong> ListBoxes, </a></li></ul>
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html" class="active"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Button Boxer: Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html"><strong>4.</strong> HTML Articler: Entries, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -69,18 +69,14 @@
 
                 <div id="content" class="content">
                     <a class="header" href="./chapter_01.html#creating-a-window-w-header-bar" id="creating-a-window-w-header-bar"><h1>Creating a Window w/ Header Bar</h1></a>
+<p><img src="images/headerbar.png" /></p>
 <p>In this chapter, we will create a simple GTK application that features a header bar. This will
-serve as an introduction to the basics of creating an application structure to contain the
-state of your GTK UI, as well as spawning a GTK window and running your application.</p>
+serve as an introduction to the basics of creating a GTK application data structure to contain
+the widgets that you will later program, as well as spawning a GTK window and running your
+application.</p>
 <blockquote>
 <p>Before continuing, do ensure that you have added the <strong>gtk</strong> crate to your <strong>Cargo.toml</strong> file,
 and additionally have specified at least <code>v3_14</code> as a feature to enable with the <strong>gtk</strong> crate.</p>
-</blockquote>
-<blockquote>
-<p>Also note that each GTK object that you obtain from the <strong>gtk</strong> crates are wrapped so that you
-need not worry about Rust borrowing rules. GTK objects are reference-counted, so when you need
-to share a GTK object across multiple closures, you can do so by simply cloning a new
-reference.</p>
 </blockquote>
 <a class="header" href="./chapter_01.html#creating-the-gtk-application-structures" id="creating-the-gtk-application-structures"><h2>Creating the GTK Application Structures</h2></a>
 <p>The following diagram lays out how we will construct our GTK application data structure. One does
@@ -238,6 +234,20 @@ above to program the exit button to exit the program.</p>
 
         <!-- Livereload script (if served using the cli tool) -->
         
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
 
         
 

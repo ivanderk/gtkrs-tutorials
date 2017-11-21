@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Entries, Dropdown Buttons, Scrolled Windows, &amp; Text Views - </title>
+        <title>HTML Articler: Entries, Scrolled Windows, &amp; Text Views - </title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +48,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html" class="active"><strong>4.</strong> Entries, Dropdown Buttons, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_state.html"><strong>4.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_04.html"><strong>5.</strong> Menu Buttons, Popover Menus, &amp; Check/Toggle Buttons</a></li><li><a href="./chapter_05.html"><strong>6.</strong> ListBoxes, </a></li></ul>
+            <ul class="chapter"><li><a href="./introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="./chapter_01.html"><strong>2.</strong> Creating a Window w/ Header Bar</a></li><li><a href="./chapter_02.html"><strong>3.</strong> Button Boxer: Boxes, Buttons, &amp; Labels</a></li><li><ul class="section"><li><a href="./chapter_02_objects.html"><strong>3.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_02_state.html"><strong>3.2.</strong> Creating and Maintaining State</a></li><li><a href="./chapter_02_ui.html"><strong>3.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_02_programming.html"><strong>3.4.</strong> Programming the UI</a></li><li><a href="./chapter_02_review.html"><strong>3.5.</strong> Conclusion &amp; Review</a></li></ul></li><li><a href="./chapter_03.html" class="active"><strong>4.</strong> HTML Articler: Entries, Scrolled Windows, &amp; Text Views</a></li><li><ul class="section"><li><a href="./chapter_03_objects.html"><strong>4.1.</strong> GTK Objects Covered</a></li><li><a href="./chapter_03_horrorshow.html"><strong>4.2.</strong> Horrorshow HTML Templating</a></li><li><a href="./chapter_03_ui.html"><strong>4.3.</strong> Creating the UI Structure</a></li><li><a href="./chapter_03_programming.html"><strong>4.4.</strong> Programming the UI</a></li><li><a href="./chapter_03_review.html"><strong>4.5.</strong> Conclusion &amp; Review</a></li></ul></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -68,7 +68,19 @@
                 </div>
 
                 <div id="content" class="content">
-                    <a class="header" href="./chapter_03.html#entries-scrolled-windows--text-views" id="entries-scrolled-windows--text-views"><h1>Entries, Scrolled Windows, &amp; Text Views</h1></a>
+                    <a class="header" href="./chapter_03.html#html-articler-entries-scrolled-windows--text-views" id="html-articler-entries-scrolled-windows--text-views"><h1>HTML Articler: Entries, Scrolled Windows, &amp; Text Views</h1></a>
+<p><img src="images/ch03_complete.png" /></p>
+<p>In this chapter, you will begin to write useful software that takes advantage of text entries
+and text views, to allow the user to enter data within various input fields, and to generate
+an output from those inputs after clicking a button. In addition, you will also be exposed
+to the '<strong>html!</strong>' macro within the <a href="https://docs.rs/horrorshow/">horrorshow crate</a>.
+You will be writing a program that takes inputs on the left pane, and generates minified HTML
+within the right text view.</p>
+<blockquote>
+<p>Note that there isn't any external state to worry about in this chapter, as there was in the
+last. All of the state that we are concerned with is contained within the GTK objects that
+we will be interacting with.</p>
+</blockquote>
 
                 </div>
 
@@ -111,6 +123,20 @@
 
         <!-- Livereload script (if served using the cli tool) -->
         
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+    
 
         
 

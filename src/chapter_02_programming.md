@@ -56,9 +56,13 @@ our health component, and various other UI widgets across closures. Starting wit
 we simply need to program what will happen when that button is clicked. The **ButtonExt** trait
 provides a **connect_clicked()** method for precisely that.
 
-> Note that closures in Gtkrs typically pass theirselves through their closures, so if you need to
-> manipulate the calling widget, you can do so. We don't require this functionality, so we shall
-> ignore the value.
+> Note that widgets in GTK typically pass themselves through their closures, so if you need to
+> manipulate the calling widget, you can do so by using the assigned value passed through the
+> closure. We don't require this functionality, so we shall ignore the value.
+>
+> ```rust
+> widget.connect_action(move |widget| {});
+> ```
 
 ```rust
 {

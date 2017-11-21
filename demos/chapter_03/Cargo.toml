@@ -1,0 +1,11 @@
+[package]
+authors = ["Michael Aaron Murphy <mmstickman@gmail.com>"]
+name = "chapter_03"
+version = "0.1.0"
+
+[dependencies]
+horrorshow = "0.6.2"
+
+[dependencies.gtk]
+features = ["v3_22"]
+version = "0.2.0"

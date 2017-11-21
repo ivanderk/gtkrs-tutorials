@@ -1,16 +1,14 @@
 # Creating a Window w/ Header Bar
 
+<img src="images/headerbar.png" />
+
 In this chapter, we will create a simple GTK application that features a header bar. This will
-serve as an introduction to the basics of creating an application structure to contain the
-state of your GTK UI, as well as spawning a GTK window and running your application.
+serve as an introduction to the basics of creating a GTK application data structure to contain
+the widgets that you will later program, as well as spawning a GTK window and running your
+application.
 
 > Before continuing, do ensure that you have added the **gtk** crate to your **Cargo.toml** file,
 > and additionally have specified at least `v3_14` as a feature to enable with the **gtk** crate.
-
-> Also note that each GTK object that you obtain from the **gtk** crates are wrapped so that you
-> need not worry about Rust borrowing rules. GTK objects are reference-counted, so when you need
-> to share a GTK object across multiple closures, you can do so by simply cloning a new
-> reference.
 
 ## Creating the GTK Application Structures
 
